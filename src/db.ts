@@ -1,21 +1,18 @@
-const { Client } = require('ts-postgres')
+import { Sequelize } from 'sequelize';
+
 require('dotenv').config();
 
-const connectDB = async () => {
+const sequelize = new Sequelize(process.env.DB_URL as string);
+
+const db = async () => {
   try {
-    const client = new Client({
-      user: process.env.DB_USER,
-      host: process.env.DB_HOST,
-      database: process.env.DB_DATABASE,
-      password: process.env.DB_PASS,
-    });
-    await client.connect();
-    const res = await client.query('SELECT cont(*) FROM questions');
-    console.log('this is the result from db.ts:', res);
-    await client.end();
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
   } catch (error) {
-    console.log(error);
+    console.error('Unable to connect to database:', error);
   }
 };
 
-connectDB();
+db();
+
+export default sequelize;
