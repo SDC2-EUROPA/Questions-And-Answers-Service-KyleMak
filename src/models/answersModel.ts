@@ -4,7 +4,7 @@ import { AnswersModel } from '../types/types';
 const { DataTypes } = require('sequelize');
 
 // eslint-disable-next-line @typescript-eslint/indent, import/prefer-default-export
- export const Answer = sequelize.define<AnswersModel>('Question', {
+ export const Answer = sequelize.define<AnswersModel>('Answer', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
