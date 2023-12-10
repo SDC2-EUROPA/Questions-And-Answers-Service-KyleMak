@@ -46,6 +46,9 @@ const { DataTypes } = require('sequelize');
 });
 
 Question.hasMany(Answer, {
+  constraints: false,
   foreignKey: 'question_id',
 });
-Answer.belongsTo(Question);
+Answer.belongsTo(Question, {
+  foreignKey: 'question_id',
+});

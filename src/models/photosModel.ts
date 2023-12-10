@@ -4,7 +4,7 @@ import { Answer } from './answersModel';
 const { DataTypes } = require('sequelize');
 
 // eslint-disable-next-line @typescript-eslint/indent, import/prefer-default-export
- export const AnswerPhotos = sequelize.define('Photos', {
+ export const AnswerPhotos = sequelize.define('AnswerPhotos', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -12,11 +12,12 @@ const { DataTypes } = require('sequelize');
   },
   answer_id: {
     type: DataTypes.INTEGER,
+    references: { model: 'answers', key: 'id' },
     allowNull: false,
   },
   url: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
 }, {
   tableName: 'answers_photos',
@@ -26,5 +27,8 @@ const { DataTypes } = require('sequelize');
 
 Answer.hasMany(AnswerPhotos, {
   foreignKey: 'answer_id',
+  as: 'AnswerPhotos',
 });
-AnswerPhotos.belongsTo(Answer);
+AnswerPhotos.belongsTo(Answer, {
+  foreignKey: 'answer_id',
+});

@@ -1,62 +1,71 @@
-// import { Answer } from '../models/answersModel';
-// const AnswersModel = require('../types/types');
-const { Answer } = require('../models/answersModel');
-
-import { AnswerPhotos } from '../models/photosModel';
+// eslint-disable-next-line import/no-import-module-exports
 import { AnswersModel } from '../types/types';
 
+const { Answer } = require('../models/answersModel');
+const { AnswerPhotos } = require('../models/photosModel');
+
 const getAnswers = async (questionId:number):
-Promise<AnswersModel[]> => {//need to add logic regarding reported answers
-  const answersArray = await Answer.findAll({
-    where: {
-      question_id: questionId,
-    },
-  });
-  return answersArray;
+Promise<AnswersModel[]> => {
+  try {
+    const answersArray = await Answer.findAll({
+      where: {
+        question_id: questionId,
+      },
+    });
+    return answersArray;
+  } catch (error) {
+    throw new Error(`Error gettings answers from questionId ${questionId}:, ${(error as any).message}`);
+  }
 };
 
 const updateAnswerHelpful = async (answerId:number):
 Promise<AnswersModel[]> => {
-  const updatedAnswer = await Answer.increment('helpful', {
-    where: {
-      id: answerId,
-    },
-  });
-  return updatedAnswer;
+  try {
+    const updatedAnswer = await Answer.increment('helpful', {
+      where: {
+        id: answerId,
+      },
+    });
+    return updatedAnswer;
+  } catch (error) {
+    throw new Error(`Error updating helpful for answerId ${answerId}:, ${(error as any).message}`);
+  }
 };
 
 const reportAnswer = async (answerId:number):
 Promise<AnswersModel[]> => {
-  const updatedAnswer = await Answer.update({ reported: true }, {
-    where: {
-      id: answerId,
-    },
-  });
-  return updatedAnswer;
-};
-
-const addAnswer = async (body:string, name:string, email:string, photo:any, questionId:number) :
-Promise<AnswersModel[]> => {
-  const addedAnswer = await Answer.create({
-    question_id: questionId,
-    body,
-    date_written: new Date(),
-    answerer_name: name,
-    answerer_email: email,
-    reported: false,
-    helpful: 0,
-  }, {
-    include: ['AnswersPhoto'],
-  });
-
-  if (photo && photo.length > 0) {
-    const addedPhoto = await AnswerPhotos.update({ url: photo }, {
+  try {
+    const updatedAnswer = await Answer.update({ reported: true }, {
       where: {
-        answer_id: 1,
+        id: answerId,
       },
     });
+    return updatedAnswer;
+  } catch (error) {
+    throw new Error(`Error updating reported for answerId ${answerId}:, ${(error as any).message}`);
   }
-  return addedAnswer;
+};
+
+const addAnswer = async (body:string, name:string, email:string, photos:string[], questionId:number)
+:Promise<AnswersModel[] | undefined> => {
+  const photoStored = photos?.length ? photos.map((photoString) => ({ url: photoString })) : null;
+  try {
+    const addedAnswer = await Answer.create({
+      question_id: questionId,
+      body,
+      date_written: new Date(),
+      answerer_name: name,
+      answerer_email: email,
+      reported: false,
+      helpful: 0,
+      AnswerPhotos: photoStored,
+    }, {
+      include: ['AnswerPhotos'],
+    });
+    return addedAnswer;
+  } catch (error) {
+    throw new Error(`Error adding answer at questionId ${questionId}:, ${(error as any).message}`);
+  }
 };
 
 module.exports = {

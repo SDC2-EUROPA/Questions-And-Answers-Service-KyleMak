@@ -2,32 +2,46 @@ const { Question } = require('../models/questionsModel');
 
 import { QuestionsModel } from '../types/types';
 
-const getQuestions = async (productId:number):Promise<QuestionsModel[]> => { //need to add logic regarding reported questions
-  const questionsArray = await Question.findAll({
-    where: {
-      product_id: productId,
-    },
-  });
-  return questionsArray;
+const getQuestions = async (productId:number):Promise<QuestionsModel[]> => {
+  try {
+    const questionsArray = await Question.findAll({
+      where: {
+        product_id: productId,
+        reported: false,
+      },
+    });
+    return questionsArray;
+  } catch (error) {
+    throw new Error('Error getting questions from database');
+  }
 };
 
 const updateQuestionHelpful = async (questionId:number):Promise<QuestionsModel[]> => {
-  const updatedQuestion = await Question.increment('helpful', {
-    where: {
-      id: questionId,
-    },
-  });
-  return updatedQuestion;
+  try {
+    const updatedQuestion = await Question.increment('helpful', {
+      where: {
+        id: questionId,
+      },
+    });
+    return updatedQuestion;
+  } catch (error) {
+    throw new Error('Error updating helpful for question');
+  }
 };
 
 const reportQuestion = async (questionId:number):Promise<QuestionsModel[]> => {
-  const updateReport = await Question.update({ reported: true }, {
-    where: {
-      id: questionId,
-    },
-  });
-  return updateReport;
+  try {
+    const updateReport = await Question.update({ reported: true }, {
+      where: {
+        id: questionId,
+      },
+    });
+    return updateReport;
+  } catch (error) {
+    throw new Error(`Error reporting question:, ${(error as any).message}`);
+  }
 };
+
 const addQuestion = async ({
   productId,
   body,
@@ -47,7 +61,7 @@ Promise<QuestionsModel[]> => {
     });
     return createdQuestion;
   } catch (error) {
-    throw new Error((error as any).message);
+    throw new Error(`Error adding question at productId ${productId}:, ${(error as any).message}`);
   }
 };
 
