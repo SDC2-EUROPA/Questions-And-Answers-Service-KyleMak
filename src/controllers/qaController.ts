@@ -80,9 +80,9 @@ qaRouter.put('/answers/:answer_id/report', (req:Request, res:Response) => {
 
 qaRouter.post('/questions/:question_id/answers', (req:Request, res:Response) => {
   const {
-    body, name, email, photos,
+    body, name, email, photos, questionId,
   } = req.body;
-  addAnswer(body, name, email, photos)
+  addAnswer(body, name, email, photos, questionId)
     .then(() => res.status(201).send())
     .catch(() => res.sendStatus(400));
 });

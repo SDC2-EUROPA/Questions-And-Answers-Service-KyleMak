@@ -1,4 +1,5 @@
 import sequelize from '../db';
+import { Answer } from './answersModel';
 
 const { DataTypes } = require('sequelize');
 
@@ -22,3 +23,8 @@ const { DataTypes } = require('sequelize');
   createdAt: false,
   updatedAt: false,
 });
+
+Answer.hasMany(AnswerPhotos, {
+  foreignKey: 'answer_id',
+});
+AnswerPhotos.belongsTo(Answer);

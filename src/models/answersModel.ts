@@ -1,5 +1,6 @@
 import sequelize from '../db';
 import { AnswersModel } from '../types/types';
+import { Question } from './questionsModel';
 
 const { DataTypes } = require('sequelize');
 
@@ -43,3 +44,8 @@ const { DataTypes } = require('sequelize');
   createdAt: false,
   updatedAt: false,
 });
+
+Question.hasMany(Answer, {
+  foreignKey: 'question_id',
+});
+Answer.belongsTo(Question);
