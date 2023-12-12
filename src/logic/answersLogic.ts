@@ -1,5 +1,8 @@
 // eslint-disable-next-line import/no-import-module-exports
 import { AnswersModel } from '../types/types';
+// import { Answer } from '../models/answersModel';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// import { AnswerPhotos } from '../models/photosModel';
 
 const { Answer } = require('../models/answersModel');
 const { AnswerPhotos } = require('../models/photosModel');
@@ -48,7 +51,9 @@ Promise<AnswersModel[]> => {
 
 const addAnswer = async (body:string, name:string, email:string, photos:string[], questionId:number)
 :Promise<AnswersModel[] | undefined> => {
-  const photoStored = photos?.length ? photos.map((photoString) => ({ url: photoString })) : null;
+  const photoStored = photos?.length ? photos.map(
+    (photoString) => ({ url: photoString }),
+  ) : undefined;
   try {
     const addedAnswer = await Answer.create({
       question_id: questionId,
@@ -60,7 +65,7 @@ const addAnswer = async (body:string, name:string, email:string, photos:string[]
       helpful: 0,
       AnswerPhotos: photoStored,
     }, {
-      include: ['AnswerPhotos'],
+      include: photoStored ? ['AnswerPhotos'] : undefined,
     });
     return addedAnswer;
   } catch (error) {
@@ -68,6 +73,6 @@ const addAnswer = async (body:string, name:string, email:string, photos:string[]
   }
 };
 
-module.exports = {
+export {
   getAnswers, updateAnswerHelpful, reportAnswer, addAnswer,
 };

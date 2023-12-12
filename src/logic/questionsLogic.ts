@@ -1,6 +1,6 @@
-const { Question } = require('../models/questionsModel');
-
 import { QuestionsModel } from '../types/types';
+
+const { Question } = require('../models/questionsModel');
 
 const getQuestions = async (productId:number):Promise<QuestionsModel[]> => {
   try {
@@ -65,6 +65,6 @@ Promise<QuestionsModel[]> => {
   }
 };
 
-module.exports = {
+export {
   getQuestions, updateQuestionHelpful, reportQuestion, addQuestion,
 };

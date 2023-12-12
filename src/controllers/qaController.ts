@@ -1,6 +1,5 @@
-import { AnswersModel, QuestionsModel } from '../types/types';
 import express, { Router, Request, Response } from 'express';
-// const { QuestionsModel } = require('../types/types');
+import { AnswersModel, QuestionsModel } from '../types/types';
 
 const {
   getQuestions, updateQuestionHelpful, reportQuestion, addQuestion,
@@ -88,4 +87,4 @@ qaRouter.post('/questions/:question_id/answers', (req:Request, res:Response) => 
     .catch(() => res.sendStatus(400));
 });
 
-module.exports = qaRouter;
+export default qaRouter;

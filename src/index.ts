@@ -1,3 +1,5 @@
+import qaController from './controllers/qaController';
+
 const express = require('express');
 const cors = require('cors');
 require('./db');
@@ -8,12 +10,12 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
-const router = require('./controllers/qaController');
+// const router = require('./controllers/qaController');
 
-app.use('/qa', router);
+app.use('/qa', qaController);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 
-module.exports.app = app;
+export default app;
