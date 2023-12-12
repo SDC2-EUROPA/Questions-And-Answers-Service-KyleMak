@@ -1,7 +1,9 @@
+import { DataTypes } from 'sequelize';
 import sequelize from '../db';
 import { AnswersModel } from '../types/types';
+import { Question } from './questionsModel';
 
-const { DataTypes } = require('sequelize');
+// const { DataTypes } = require('sequelize');
 
 // eslint-disable-next-line @typescript-eslint/indent, import/prefer-default-export
  export const Answer = sequelize.define<AnswersModel>('Answer', {
@@ -42,4 +44,12 @@ const { DataTypes } = require('sequelize');
   tableName: 'answers',
   createdAt: false,
   updatedAt: false,
+});
+
+Question.hasMany(Answer, {
+  constraints: false,
+  foreignKey: 'question_id',
+});
+Answer.belongsTo(Question, {
+  foreignKey: 'question_id',
 });

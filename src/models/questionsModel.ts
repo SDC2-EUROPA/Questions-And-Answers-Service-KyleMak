@@ -1,7 +1,8 @@
+import { DataTypes } from 'sequelize';
 import sequelize from '../db';
 import { QuestionsModel } from '../types/types';
 
-const { DataTypes } = require('sequelize');
+// const { DataTypes } = require('sequelize');
 
 // eslint-disable-next-line @typescript-eslint/indent, import/prefer-default-export
  export const Question = sequelize.define<QuestionsModel>('Question', {
