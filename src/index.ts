@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 // const router = require('./controllers/qaController');
 
-app.use('/qa', qaController);
+app.use('/', qaController);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
