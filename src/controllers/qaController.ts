@@ -19,7 +19,10 @@ qaRouter.get('/questions', (req:Request, res:Response) => {
   if (!req.query.product_id) {
     res.status(400).send('Missing product_id');
   }
-  getQuestions(req.query.product_id)
+  //for loader.io testing, comment out for production
+  const randomId = () => 900000 + Math.floor((Math.random() * 100000));
+  const id = randomId();
+  getQuestions(id)
     .then((results:QuestionsModel[]) => {
       res.status(200).send(results);
     })
