@@ -1,6 +1,8 @@
 import express, { Router, Request, Response } from 'express';
 import { AnswersModel, QuestionsModel } from '../types/types';
 
+require('dotenv').config();
+
 const {
   getQuestions, updateQuestionHelpful, reportQuestion, addQuestion,
 } = require('../logic/questionsLogic');
@@ -9,6 +11,9 @@ const {
 } = require('../logic/answersLogic');
 
 const qaRouter:Router = express.Router();
+qaRouter.get(`/${process.env.LOADER}`, (req:Request, res:Response) => {
+  res.status(200).send(process.env.LOADER);
+});
 
 qaRouter.get('/questions', (req:Request, res:Response) => {
   if (!req.query.product_id) {
