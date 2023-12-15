@@ -11,6 +11,7 @@ const {
 } = require('../logic/answersLogic');
 
 const qaRouter:Router = express.Router();
+
 qaRouter.get(`/${process.env.LOADER}`, (req:Request, res:Response) => {
   res.status(200).send(process.env.LOADER);
 });
@@ -19,10 +20,10 @@ qaRouter.get('/questions', (req:Request, res:Response) => {
   if (!req.query.product_id) {
     res.status(400).send('Missing product_id');
   }
-  //for loader.io testing, comment out for production
+  //for loader.io testing, change back for development
   const randomId = () => 900000 + Math.floor((Math.random() * 100000));
-  const id = randomId();
-  getQuestions(id)
+  const Id = randomId();
+  getQuestions(Id)
     .then((results:QuestionsModel[]) => {
       res.status(200).send(results);
     })
@@ -61,7 +62,10 @@ qaRouter.post('/questions', (req:Request, res:Response) => {
 });
 
 qaRouter.get('/questions/:question_id/answers', (req:Request, res:Response) => {
-  getAnswers(req.params.question_id)
+  //req.params.question_id
+  const randomId = () => 900000 + Math.floor((Math.random() * 100000));
+  const Id = randomId();
+  getAnswers(Id)
     .then((results:AnswersModel[]) => {
       res.status(200).send(results);
     })
