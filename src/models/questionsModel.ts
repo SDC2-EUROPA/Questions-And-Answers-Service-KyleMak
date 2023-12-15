@@ -43,4 +43,11 @@ import { QuestionsModel } from '../types/types';
   tableName: 'questions',
   createdAt: false,
   updatedAt: false,
+  indexes: [
+    {
+      name: 'IX_questions_productId',
+      using: 'BTREE',
+      fields: ['product_id'],
+    },
+  ],
 });

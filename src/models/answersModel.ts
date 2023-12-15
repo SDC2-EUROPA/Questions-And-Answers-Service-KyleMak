@@ -44,6 +44,13 @@ import { Question } from './questionsModel';
   tableName: 'answers',
   createdAt: false,
   updatedAt: false,
+  indexes: [
+    {
+      name: 'IX_answers_questionId',
+      using: 'BTREE',
+      fields: ['question_id'],
+    },
+  ],
 });
 
 Question.hasMany(Answer, {
